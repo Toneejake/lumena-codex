@@ -76,7 +76,12 @@ export function EvolutionChain({ species, speciesMap, onNavigate }) {
               className={`evo-node ${isCurrent ? 'current' : ''}`}
               onClick={() => onNavigate(s.species_id)}
             >
-              <CreatureAvatar name={s.name} types={s.types} size="sm" />
+              <CreatureAvatar
+                name={s.name}
+                types={s.types}
+                imageUrl={s.image_url}
+                size="sm"
+              />
               <div className="evo-name">{s.name}</div>
             </div>
           </div>

@@ -18,7 +18,12 @@ const SpeciesCard = memo(function SpeciesCard({ species, onSelect }) {
       onKeyDown={e => { if (e.key === 'Enter') onSelect(species.species_id) }}
     >
       <div className="card-codex">#{codex}</div>
-      <CreatureAvatar name={species.name} types={species.types} size="md" />
+      <CreatureAvatar
+        name={species.name}
+        types={species.types}
+        imageUrl={species.image_url}
+        size="md"
+      />
       <div className="card-name">{species.name}</div>
       <div className="card-types">
         {species.types.map(t => <TypeBadge key={t} type={t} />)}

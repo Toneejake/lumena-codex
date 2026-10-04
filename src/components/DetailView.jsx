@@ -26,7 +26,12 @@ export function DetailView({ species, learnset, speciesMap, onNavigate }) {
       {/* Header */}
       <div className="detail-header">
         <div className="detail-art-wrapper">
-          <CreatureAvatar name={species.name} types={species.types} size="lg" />
+          <CreatureAvatar
+            name={species.name}
+            types={species.types}
+            imageUrl={species.image_url}
+            size="lg"
+          />
         </div>
         <div className="detail-info">
           <div className="detail-codex">#{codex}</div>

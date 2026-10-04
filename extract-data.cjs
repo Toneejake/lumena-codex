@@ -24,6 +24,35 @@ const fn = new Function(`
 
 const data = fn();
 
+// Load image links if available
+const imageCandidates = [
+  path.join(__dirname, '..', 'images link.txt'),
+  path.join(__dirname, 'images link.txt'),
+  path.join(__dirname, 'raw-data', 'images link.txt'),
+];
+
+const imageMap = {};
+const imagePath = imageCandidates.find(p => fs.existsSync(p));
+if (imagePath) {
+  console.log(`Using images link file: ${imagePath}`);
+  const lines = fs.readFileSync(imagePath, 'utf8').trim().split(/\r?\n/).filter(Boolean);
+  lines.forEach(url => {
+    const match = url.match(/assets\/(\d+)_([a-z0-9_]+)_front/i);
+    if (match) {
+      const num = parseInt(match[1], 10);
+      imageMap[num] = url.trim();
+    }
+  });
+} else {
+  console.warn('Warning: images link.txt not found. Species image_url will not be populated.');
+}
+
+if (data.species && data.species.species) {
+  data.species.species.forEach(sp => {
+    sp.image_url = imageMap[sp.codex_number] || null;
+  });
+}
+
 const dataDir = path.join(__dirname, 'src', 'data');
 if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir, { recursive: true });
 
@@ -39,3 +68,4 @@ fs.writeFileSync(
 
 console.log(`Extracted ${data.species.species.length} species`);
 console.log(`Extracted ${Object.keys(data.learnsets.learnsets).length} learnsets`);
+
